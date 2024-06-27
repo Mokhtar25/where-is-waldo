@@ -22,3 +22,12 @@ export async function updateItem(blog: BlogItem) {
   const data = await axios.put(baseUrl + `/${blog.id}`, blog);
   return data.data;
 }
+
+export async function makeBlog(blog: BlogItem) {
+  try {
+    const data = await axios.post(baseUrl + `/${blog.id}`, blog);
+    return data.data;
+  } catch (err) {
+    return err.response.data;
+  }
+}

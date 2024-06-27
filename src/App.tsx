@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 import Blog from "./comp/Blog";
 import { getBlogs, updateItem } from "./utils/api";
 import { BlogItem } from "./comp/Blog";
+import Model from "./comp/Model";
 
 function App() {
   const [items, setItems] = useState<BlogItem[]>([]);
   const [re, setRe] = useState(0);
+  const [hideModal, setHideModal] = useState(false);
 
+  const addNew = () => {
+    setHideModal(!hideModal);
+  };
   const handelRe = () => {
     setRe(re + 1);
   };
@@ -24,10 +27,17 @@ function App() {
   return (
     <>
       <nav className="h-8 w-full text-xl">Hello</nav>
-      {items.map((e: BlogItem) => (
-        <Blog key={e.id} blogItem={e} handelLike={handelLike} />
-      ))}
+
+      <Model hide={hideModal} className="bg-slate-200" />
+
+      <main className="flex min-h-96 flex-wrap items-center gap-2">
+        {items.map((e: BlogItem) => (
+          <Blog key={e.id} blogItem={e} handelLike={handelLike} />
+        ))}
+      </main>
+
       <button onClick={handelRe}>refersh</button>
+      <button onClick={addNew}>ADD NEW</button>
     </>
   );
 }
