@@ -1,5 +1,3 @@
-import React from "react";
-
 export interface BlogItem {
   url: string;
   id: string;
@@ -10,7 +8,7 @@ export interface BlogItem {
 
 interface BlogProps {
   blogItem: BlogItem;
-  handelLike: (id: string) => void;
+  handelLike: (e: BlogItem) => void;
 }
 
 export default function Blog({ blogItem, handelLike }: BlogProps) {
@@ -23,7 +21,7 @@ export default function Blog({ blogItem, handelLike }: BlogProps) {
       <span>{blogItem.url}</span>
 
       <span>{blogItem.likes}</span>
-      <button onClick={() => handelLike(blogItem.id)}>Like +</button>
+      <button onClick={() => handelLike(blogItem)}>Like +</button>
     </div>
   );
 }
