@@ -5,8 +5,9 @@ import { BlogItem } from "./Blog";
 interface props {
   hide: boolean;
   className: string;
+  addItem: (e: BlogItem) => void;
 }
-export default function Model({ hide, className }: props) {
+export default function Model({ hide, className, addItem }: props) {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
@@ -22,9 +23,8 @@ export default function Model({ hide, className }: props) {
       author: author,
     };
     const news = await makeBlog(item);
-    if (news.error) setError(news.error);
-
-    console.log(news.error);
+    if (news.error) return setError(news.error);
+    addItem(news);
   };
 
   return (

@@ -16,6 +16,10 @@ function App() {
   const handelRe = () => {
     setRe(re + 1);
   };
+
+  const addItem = (e: BlogItem) => {
+    setItems([...items, e]);
+  };
   useEffect(() => {
     getBlogs().then((re) => setItems(re));
   }, [re]);
@@ -28,7 +32,7 @@ function App() {
     <>
       <nav className="h-8 w-full text-xl">Hello</nav>
 
-      <Model hide={hideModal} className="bg-slate-200" />
+      <Model hide={hideModal} addItem={addItem} className="bg-slate-200" />
 
       <main className="flex min-h-96 flex-wrap items-center gap-2">
         {items.map((e: BlogItem) => (
