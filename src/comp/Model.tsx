@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { makeBlog } from "../utils/api";
 import { BlogItem } from "./Blog";
 

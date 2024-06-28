@@ -1,9 +1,9 @@
 import { BlogItem } from "../comp/Blog";
 import axios from "axios";
 
-const localhost = "localhost:3001";
-// const baseUrl = "/api/blogs";
-const baseUrl = "http://localhost:3001/api/blogs";
+// const localhost = "localhost:3001";
+const baseUrl = "/api/blogs";
+// const baseUrl = "http://localhost:3001/api/blogs";
 
 // export interface BlogItem {
 //   url: string;
@@ -27,7 +27,7 @@ export async function makeBlog(blog: BlogItem) {
   try {
     const data = await axios.post(baseUrl + `/${blog.id}`, blog);
     return data.data;
-  } catch (err) {
+  } catch (err: any) {
     return err.response.data;
   }
 }
