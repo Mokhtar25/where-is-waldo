@@ -7,6 +7,12 @@ import Model from "./comp/Model";
 import { logIn } from "./utils/login";
 import { setToken } from "./utils/api";
 
+interface User {
+  username: string;
+  token?: string;
+  name: string;
+  id: string;
+}
 type Handelr = {
   toggelVisibl: () => void;
 };
@@ -15,7 +21,7 @@ function App() {
   const [items, setItems] = useState<BlogItem[]>([]);
   const [re, setRe] = useState(0);
   const refModal = useRef<Handelr>(null);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<User>({ username: "", name: "", id: "" });
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -30,7 +36,7 @@ function App() {
   const handelDel = async (id: string) => {
     try {
       if (window.confirm("are you sure ")) {
-        const data = await deleteBlog(id);
+        await deleteBlog(id);
         setItems(items.filter((e) => e.id !== id));
       }
     } catch (ele) {
@@ -54,6 +60,7 @@ function App() {
         const user = JSON.parse(loggedUserJSON);
         if (user) {
           setUser(user);
+          console.log(user);
           setToken(user.token);
         } else {
           window.localStorage.removeItem("loggedBlogAppUser");
@@ -94,7 +101,7 @@ function App() {
       <button onClick={handelRe}>Refresh</button>
       <button onClick={addNew}>ADD NEW</button>
 
-      {!user && (
+      {!user.token && (
         <form onSubmit={login}>
           <div className="flex">
             <label>username</label>
@@ -118,6 +125,7 @@ function App() {
       <main className="flex min-h-96 flex-wrap items-center gap-2">
         {items.map((e: BlogItem) => (
           <Blog
+            userId={user.id}
             key={e.id}
             handelDel={handelDel}
             blogItem={e}
