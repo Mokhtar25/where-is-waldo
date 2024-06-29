@@ -32,8 +32,12 @@ function App() {
     const loggedUserJSON = window.localStorage.getItem("loggedBlogAppUser");
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
-      setUser(user);
-      setToken(user.token);
+      if (user) {
+        setUser(user);
+        setToken(user.token);
+      } else {
+        window.localStorage.removeItem("loggedBlogAppUser");
+      }
     }
   }, [re]);
   const handelLike = async (item: BlogItem) => {
