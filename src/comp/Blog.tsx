@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { deleteBlog } from "../utils/api";
 
 export interface BlogItem {
   url: string;
@@ -19,9 +20,10 @@ interface User {
 interface BlogProps {
   blogItem: BlogItem;
   handelLike: (e: BlogItem) => void;
+  handelDel: (e: string) => void;
 }
 
-export default function Blog({ blogItem, handelLike }: BlogProps) {
+export default function Blog({ blogItem, handelLike, handelDel }: BlogProps) {
   const [hide, setHide] = useState(true);
   return (
     <div className="flex size-96 flex-col justify-center gap-4 border-2 border-white">
@@ -43,6 +45,10 @@ export default function Blog({ blogItem, handelLike }: BlogProps) {
       )}
       <button onClick={() => setHide(!hide)}>
         {hide ? "Show more" : "hide more"}
+      </button>
+
+      <button className="bg-rose-400" onClick={() => handelDel(blogItem.id)}>
+        Delete
       </button>
     </div>
   );

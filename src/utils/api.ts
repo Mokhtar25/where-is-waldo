@@ -33,6 +33,15 @@ export async function updateItem(blog: BlogItem) {
   return data.data;
 }
 
+export async function deleteBlog(id: string) {
+  const config = {
+    headers: { Authorization: token },
+  };
+  const data = await axios.delete(baseUrl + `/${id}`, config);
+  if (data.status === 401) throw new Error("You did not create this blog");
+  return data.data;
+}
+
 export async function makeBlog(blog: BlogItem) {
   const config = {
     headers: { Authorization: token },

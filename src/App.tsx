@@ -1,7 +1,7 @@
 import { FormEvent, useEffect, useState, useRef, ReactNode } from "react";
 import "./App.css";
 import Blog from "./comp/Blog";
-import { getBlogs, updateItem } from "./utils/api";
+import { getBlogs, updateItem, deleteBlog } from "./utils/api";
 import { BlogItem } from "./comp/Blog";
 import Model from "./comp/Model";
 import { logIn } from "./utils/login";
@@ -25,6 +25,17 @@ function App() {
   };
   const handelRe = () => {
     setRe(re + 1);
+  };
+
+  const handelDel = async (id: string) => {
+    try {
+      if (window.confirm("are you sure ")) {
+        const data = await deleteBlog(id);
+        setItems(items.filter((e) => e.id !== id));
+      }
+    } catch (ele) {
+      alert(ele);
+    }
   };
 
   const addItem = (e: BlogItem) => {
@@ -106,7 +117,12 @@ function App() {
 
       <main className="flex min-h-96 flex-wrap items-center gap-2">
         {items.map((e: BlogItem) => (
-          <Blog key={e.id} blogItem={e} handelLike={handelLike} />
+          <Blog
+            key={e.id}
+            handelDel={handelDel}
+            blogItem={e}
+            handelLike={handelLike}
+          />
         ))}
       </main>
     </>
