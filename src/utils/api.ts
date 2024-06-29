@@ -13,19 +13,32 @@ const baseUrl = "/api/blogs";
 //   author: string;
 // }
 
+export let token = "";
+
+export const setToken = (newToken: string) => {
+  token = `Bearer ${newToken}`;
+  console.log(token);
+};
+
 export async function getBlogs() {
   const data = await axios.get(baseUrl);
   return data.data;
 }
 
 export async function updateItem(blog: BlogItem) {
-  const data = await axios.put(baseUrl + `/${blog.id}`, blog);
+  const config = {
+    headers: { Authorization: token },
+  };
+  const data = await axios.put(baseUrl + `/${blog.id}`, blog, config);
   return data.data;
 }
 
 export async function makeBlog(blog: BlogItem) {
+  const config = {
+    headers: { Authorization: token },
+  };
   try {
-    const data = await axios.post(baseUrl + `/${blog.id}`, blog);
+    const data = await axios.post(baseUrl, blog, config);
     return data.data;
   } catch (err: any) {
     return err.response.data;
