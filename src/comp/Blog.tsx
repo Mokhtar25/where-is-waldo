@@ -1,9 +1,19 @@
+import { useState } from "react";
+
 export interface BlogItem {
   url: string;
   id: string;
+
+  user?: User;
   title: string;
   likes: number;
   author: string;
+}
+interface User {
+  name: string;
+  username: string;
+  id: string;
+  blogs: string[];
 }
 
 interface BlogProps {
@@ -12,16 +22,28 @@ interface BlogProps {
 }
 
 export default function Blog({ blogItem, handelLike }: BlogProps) {
+  const [hide, setHide] = useState(true);
   return (
-    <div className="flex size-60 flex-col justify-center gap-4 border-2 border-white">
+    <div className="flex size-96 flex-col justify-center gap-4 border-2 border-white">
       <h2>{blogItem.title}</h2>
-      <span>{blogItem.author}</span>
-      <span></span>
 
-      <span>{blogItem.url}</span>
+      {!hide && (
+        <>
+          <span>{blogItem.author}</span>
+          <span></span>
+          <span>{blogItem.url}</span>
+          <span>{blogItem.likes}</span>
 
-      <span>{blogItem.likes}</span>
-      <button onClick={() => handelLike(blogItem)}>Like +</button>
+          <button onClick={() => handelLike(blogItem)}>Like +</button>
+          <span>
+            {" "}
+            Added By {blogItem.user ? blogItem.user.username : "Annynom"}
+          </span>
+        </>
+      )}
+      <button onClick={() => setHide(!hide)}>
+        {hide ? "Show more" : "hide more"}
+      </button>
     </div>
   );
 }

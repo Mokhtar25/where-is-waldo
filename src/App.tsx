@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useState, useRef, ReactNode } from "react";
 import "./App.css";
 import Blog from "./comp/Blog";
 import { getBlogs, updateItem } from "./utils/api";
@@ -7,38 +7,49 @@ import Model from "./comp/Model";
 import { logIn } from "./utils/login";
 import { setToken } from "./utils/api";
 
+type Handelr = {
+  toggelVisibl: () => void;
+};
+
 function App() {
   const [items, setItems] = useState<BlogItem[]>([]);
   const [re, setRe] = useState(0);
-  const [hideModal, setHideModal] = useState(true);
+  const refModal = useRef<Handelr>(null);
   const [user, setUser] = useState(null);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
   const addNew = () => {
-    setHideModal(!hideModal);
+    refModal.current?.toggelVisibl();
   };
   const handelRe = () => {
     setRe(re + 1);
   };
 
   const addItem = (e: BlogItem) => {
+    refModal.current?.toggelVisibl();
+
     setItems([...items, e]);
   };
   useEffect(() => {
-    getBlogs().then((re) => setItems(re));
+    async function fetchMyAPI() {
+      const items: BlogItem[] = await getBlogs();
+      items.sort((a, b) => (a.likes > b.likes ? -1 : 1));
+      setItems(items);
 
-    const loggedUserJSON = window.localStorage.getItem("loggedBlogAppUser");
-    if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON);
-      if (user) {
-        setUser(user);
-        setToken(user.token);
-      } else {
-        window.localStorage.removeItem("loggedBlogAppUser");
+      const loggedUserJSON = window.localStorage.getItem("loggedBlogAppUser");
+      if (loggedUserJSON) {
+        const user = JSON.parse(loggedUserJSON);
+        if (user) {
+          setUser(user);
+          setToken(user.token);
+        } else {
+          window.localStorage.removeItem("loggedBlogAppUser");
+        }
       }
     }
+    fetchMyAPI();
   }, [re]);
   const handelLike = async (item: BlogItem) => {
     const newItem = { ...item, likes: item.likes + 1 };
@@ -69,6 +80,8 @@ function App() {
   return (
     <>
       <nav className="h-8 w-full text-xl">Hello</nav>
+      <button onClick={handelRe}>Refresh</button>
+      <button onClick={addNew}>ADD NEW</button>
 
       {!user && (
         <form onSubmit={login}>
@@ -89,16 +102,13 @@ function App() {
           <button type="submit"> log in</button>
         </form>
       )}
-      <Model hide={hideModal} addItem={addItem} className="bg-neutral-300" />
+      <Model addItem={addItem} ref={refModal} className="bg-neutral-300" />
 
       <main className="flex min-h-96 flex-wrap items-center gap-2">
         {items.map((e: BlogItem) => (
           <Blog key={e.id} blogItem={e} handelLike={handelLike} />
         ))}
       </main>
-
-      <button onClick={handelRe}>Refresh</button>
-      <button onClick={addNew}>ADD NEW</button>
     </>
   );
 }
