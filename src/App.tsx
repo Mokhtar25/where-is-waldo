@@ -28,6 +28,13 @@ function App() {
   };
   useEffect(() => {
     getBlogs().then((re) => setItems(re));
+
+    const loggedUserJSON = window.localStorage.getItem("loggedBlogAppUser");
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON);
+      setUser(user);
+      setToken(user.token);
+    }
   }, [re]);
   const handelLike = async (item: BlogItem) => {
     const newItem = { ...item, likes: item.likes + 1 };
@@ -42,6 +49,7 @@ function App() {
 
       setToken(data.token);
       setUser(data);
+      window.localStorage.setItem("loggedBlogAppUser", JSON.stringify(data));
 
       setUsername("");
       setPassword("");
