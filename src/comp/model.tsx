@@ -20,21 +20,21 @@ const Model = ({ open, style, submit }: ModelProps) => {
         onClick={handelClick}
         className="flex h-full cursor-pointer items-center justify-center transition-all hover:bg-slate-600 active:brightness-125"
       >
-        11
+        rabbit
       </div>
 
       <div
         onClick={handelClick}
         className="flex h-full cursor-pointer items-center justify-center transition-all hover:bg-slate-600 active:brightness-125"
       >
-        31
+        wilson
       </div>
 
       <div
         onClick={handelClick}
         className="flex h-full cursor-pointer items-center justify-center transition-all hover:bg-slate-600 active:brightness-125"
       >
-        23
+        board
       </div>
     </div>
   );
