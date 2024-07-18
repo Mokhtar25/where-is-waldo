@@ -10,7 +10,7 @@ const App = () => {
   const [x, setX] = useState<mouseCord>();
   const [y, setY] = useState<mouseCord>();
   const [model, setModel] = useState(true);
-  const cord = [{ x: 10723, y: 9598 }];
+  const cord = [{ x: 10471, y: 14849 }];
 
   const ref = useRef<HTMLImageElement | null>(null);
   const buffer = 1500;
@@ -37,8 +37,8 @@ const App = () => {
     const width = ref.current.width;
     const height = ref.current.height;
 
-    const x = ((width / e.x) * buffer).toFixed(0);
-    const y = ((height / e.y) * buffer).toFixed(0);
+    const x = ((width / e.offsetX) * buffer).toFixed(0);
+    const y = ((height / e.offsetY) * buffer).toFixed(0);
     setX({
       page: e.pageX,
       offset: parseInt(x),
@@ -59,7 +59,13 @@ const App = () => {
         open={model}
         style={{ left: `${x?.page}px`, top: `${y?.page}px` }}
       ></Model>
-      <img src="/sea.gif" alt="" onClick={imgClick} ref={ref} />
+      <img
+        src="/sea.gif"
+        className="mx-auto"
+        alt=""
+        onClick={imgClick}
+        ref={ref}
+      />
     </div>
   );
 };
