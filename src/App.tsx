@@ -1,6 +1,7 @@
 import { MouseEvent, MouseEventHandler, useRef, useState } from "react";
 import TargetIcon from "./assets/target.svg";
 import Model from "./comp/model";
+import Header from "./comp/Header";
 
 interface mouseCord {
   page: number;
@@ -23,7 +24,6 @@ const App = () => {
   ];
 
   const ref = useRef<HTMLImageElement | null>(null);
-  const buffer = 1500;
 
   const addTarget = (offsetX: number, offsetY: number) => {
     console.log("added");
@@ -41,13 +41,17 @@ const App = () => {
       return;
     }
 
+    const bufferX = cords.x / 20;
+    const bufferY = cords.y / 20;
+    // console.log(cords.x, buffer);
     const checkX =
-      x?.offset <= cords.x + buffer && x?.offset >= cords.x - buffer;
+      x?.offset <= cords.x + bufferX && x?.offset >= cords.x - bufferX;
 
     const checkY =
-      y?.offset <= cords.y + buffer && y?.offset >= cords.y - buffer;
+      y?.offset <= cords.y + bufferY && y?.offset >= cords.y - bufferY;
     if (checkX && checkY) {
       // some values to make target correct
+      console.log(checkY, checkY, cords);
       addTarget(x.page - 10, y.page - 8);
     }
   };
@@ -74,6 +78,11 @@ const App = () => {
     });
   };
 
+  // <Header>
+  // <div className="text-secondary">
+  // hello, world {x?.offset} {y?.offset}
+  // </div>
+  // </Header>
   return (
     <div className="h-screen w-full">
       {targets.map((e) => (
@@ -84,6 +93,7 @@ const App = () => {
           src={TargetIcon}
         />
       ))}
+
       <div className="text-secondary">
         hello, world {x?.offset} {y?.offset}
       </div>
