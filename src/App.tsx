@@ -41,9 +41,9 @@ const App = () => {
       return;
     }
 
+    // adding buffer, sometimes the cords are vastly different so this adjusts it
     const bufferX = cords.x / 20;
     const bufferY = cords.y / 20;
-    // console.log(cords.x, buffer);
     const checkX =
       x?.offset <= cords.x + bufferX && x?.offset >= cords.x - bufferX;
 
@@ -78,11 +78,6 @@ const App = () => {
     });
   };
 
-  // <Header>
-  // <div className="text-secondary">
-  // hello, world {x?.offset} {y?.offset}
-  // </div>
-  // </Header>
   return (
     <div className="h-screen w-full">
       {targets.map((e) => (
@@ -93,10 +88,12 @@ const App = () => {
           src={TargetIcon}
         />
       ))}
+      <Header>
+        <div className="text-secondary">
+          hello, world {x?.offset} {y?.offset}
+        </div>
+      </Header>
 
-      <div className="text-secondary">
-        hello, world {x?.offset} {y?.offset}
-      </div>
       <Model
         submit={submit}
         open={model}

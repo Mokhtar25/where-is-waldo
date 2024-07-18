@@ -1,9 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+
 const Header = ({ children }: { children: React.ReactNode }) => {
+  const [timer, setTimer] = useState(0);
+
+  // useEffect(() => {
+  //   //Implementing the setInterval method
+  //   const interval = setInterval(() => {
+  //     setTimer((timer) => timer + 1);
+  //   }, 10);
+  //
+  //   return () => clearInterval(interval);
+  // }, [timer]);
+
   return (
-    <div className="flex h-24 items-center justify-center bg-zinc-600">
-      <span>Where is waldo</span>
-      <span>{children}</span>
+    <div className="flex h-16 items-center justify-center bg-zinc-600">
+      <span className="text-3xl">Where is Waldo</span>
+
+      <span className="size-4">{timer / 100}</span>
     </div>
   );
 };
