@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import TargetIcon from "./assets/target.svg";
 import Model from "./comp/model";
 import Header from "./comp/Header";
+import Won from "./comp/Won";
 
 interface mouseCord {
   page: number;
@@ -12,23 +13,27 @@ interface Targets {
   offsetY: number;
   offsetX: number;
 }
+
+interface TargetCords {
+  x: number;
+  y: number;
+  type: string;
+  found: boolean;
+}
+
 const App = () => {
   const [targets, setTargets] = useState<Targets[]>([]);
   const [x, setX] = useState<mouseCord>();
   const [y, setY] = useState<mouseCord>();
-  const [model, setModel] = useState(true);
-  const [cord, setCord] = useState([
+  const [model, setModel] = useState(false);
+  const [cord, setCord] = useState<TargetCords[]>([
     { x: 10471, y: 14849, type: "board", found: false },
     { type: "wilson", x: 3213, y: 1546, found: false },
     { type: "rabbit", x: 1261, y: 3148, found: false },
   ]);
 
   const gameOver = cord.filter((e) => e.found === true).length === 3;
-  console.log(
-    gameOver,
-    "gameover",
-    cord.filter((e) => e.found === true),
-  );
+  console.log(gameOver);
 
   const ref = useRef<HTMLImageElement | null>(null);
 
@@ -97,17 +102,16 @@ const App = () => {
           src={TargetIcon}
         />
       ))}
-      <Header>
-        <div className="text-secondary">
-          hello, world {x?.offset} {y?.offset}
-        </div>
-      </Header>
+      {gameOver && <Won />}
+      <Header>{null}</Header>
 
-      <Model
-        submit={submit}
-        open={model}
-        style={{ left: `${x?.page}px`, top: `${y?.page}px` }}
-      ></Model>
+      {!gameOver && (
+        <Model
+          submit={submit}
+          open={model}
+          style={{ left: `${x?.page}px`, top: `${y?.page}px` }}
+        ></Model>
+      )}
       <img
         src="/sea.gif"
         className="mx-auto mt-8"
