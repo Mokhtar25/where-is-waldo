@@ -22,6 +22,7 @@ interface TargetCords {
 }
 
 const App = () => {
+  const [loading, setLoading] = useState(true);
   const [targets, setTargets] = useState<Targets[]>([]);
   const [x, setX] = useState<mouseCord>();
   const [y, setY] = useState<mouseCord>();
@@ -104,7 +105,6 @@ const App = () => {
       ))}
       {gameOver && <Won />}
       <Header>{null}</Header>
-
       {!gameOver && (
         <Model
           submit={submit}
@@ -112,9 +112,13 @@ const App = () => {
           style={{ left: `${x?.page}px`, top: `${y?.page}px` }}
         ></Model>
       )}
+      {loading && (
+        <span className="animate-ping px-4 text-3xl">loading...</span>
+      )}
       <img
+        onLoad={() => setLoading(false)}
         src="/sea.gif"
-        className="mx-auto mt-8"
+        className={"mx-auto mt-8 " + (loading && "hidden")}
         alt=""
         onClick={imgClick}
         ref={ref}
