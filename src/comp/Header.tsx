@@ -1,16 +1,23 @@
 import React, { useEffect, useState } from "react";
 
-const Header = ({ children }: { children: React.ReactNode }) => {
+const Header = ({
+  children,
+  gameOver,
+}: {
+  children: React.ReactNode;
+  gameOver: boolean;
+}) => {
   const [timer, setTimer] = useState(0);
 
   useEffect(() => {
     //Implementing the setInterval method
+    if (gameOver) return;
     const interval = setInterval(() => {
       setTimer((timer) => timer + 1);
     }, 10);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [gameOver]);
 
   return (
     <div className="flex h-16 items-center justify-center bg-zinc-600">

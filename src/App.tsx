@@ -104,7 +104,7 @@ const App = () => {
         />
       ))}
       {gameOver && <Won />}
-      <Header>{null}</Header>
+      <Header gameOver={gameOver}>{null}</Header>
       {!gameOver && (
         <Model
           submit={submit}
