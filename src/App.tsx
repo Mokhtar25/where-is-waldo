@@ -1,4 +1,4 @@
-import { MouseEvent, MouseEventHandler, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import TargetIcon from "./assets/target.svg";
 import Model from "./comp/model";
 import Header from "./comp/Header";
@@ -17,11 +17,18 @@ const App = () => {
   const [x, setX] = useState<mouseCord>();
   const [y, setY] = useState<mouseCord>();
   const [model, setModel] = useState(true);
-  const cord = [
-    { x: 10471, y: 14849, type: "board" },
-    { type: "wilson", x: 3213, y: 1546 },
-    { type: "rabbit", x: 1261, y: 3148 },
-  ];
+  const [cord, setCord] = useState([
+    { x: 10471, y: 14849, type: "board", found: false },
+    { type: "wilson", x: 3213, y: 1546, found: false },
+    { type: "rabbit", x: 1261, y: 3148, found: false },
+  ]);
+
+  const gameOver = cord.filter((e) => e.found === true).length === 3;
+  console.log(
+    gameOver,
+    "gameover",
+    cord.filter((e) => e.found === true),
+  );
 
   const ref = useRef<HTMLImageElement | null>(null);
 
@@ -40,6 +47,7 @@ const App = () => {
       console.log(cords, type, cord);
       return;
     }
+    if (cords.found === true) return;
 
     // adding buffer, sometimes the cords are vastly different so this adjusts it
     const bufferX = cords.x / 20;
@@ -52,6 +60,7 @@ const App = () => {
     if (checkX && checkY) {
       // some values to make target correct
       console.log(checkY, checkY, cords);
+      setCord(cord.map((e) => (e.type === type ? { ...e, found: true } : e)));
       addTarget(x.page - 10, y.page - 8);
     }
   };
@@ -101,7 +110,7 @@ const App = () => {
       ></Model>
       <img
         src="/sea.gif"
-        className="mx-auto"
+        className="mx-auto mt-8"
         alt=""
         onClick={imgClick}
         ref={ref}
