@@ -8,7 +8,6 @@ interface mouseCord {
   page: number;
   offset: number;
 }
-
 interface Targets {
   offsetY: number;
   offsetX: number;
@@ -34,12 +33,10 @@ const App = () => {
   ]);
 
   const gameOver = cord.filter((e) => e.found === true).length === 3;
-  console.log(gameOver);
 
   const ref = useRef<HTMLImageElement | null>(null);
 
   const addTarget = (offsetX: number, offsetY: number) => {
-    console.log("added");
     setTargets([...targets, { offsetY, offsetX }]);
   };
 
@@ -50,7 +47,6 @@ const App = () => {
 
     const cords = cord.find((e) => e.type === type);
     if (!cords) {
-      console.log(cords, type, cord);
       return;
     }
     if (cords.found === true) return;
@@ -65,7 +61,6 @@ const App = () => {
       y?.offset <= cords.y + bufferY && y?.offset >= cords.y - bufferY;
     if (checkX && checkY) {
       // some values to make target correct
-      console.log(checkY, checkY, cords);
       setCord(cord.map((e) => (e.type === type ? { ...e, found: true } : e)));
       addTarget(x.page - 10, y.page - 8);
     }
