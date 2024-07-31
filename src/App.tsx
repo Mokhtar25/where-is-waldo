@@ -27,7 +27,7 @@ const App = () => {
   const [y, setY] = useState<mouseCord>();
   const [model, setModel] = useState(false);
   const [cord, setCord] = useState<TargetCords[]>([
-    { x: 10471, y: 14849, type: "board", found: false },
+    { type: "board", x: 10471, y: 14849, found: false },
     { type: "wilson", x: 3213, y: 1546, found: false },
     { type: "rabbit", x: 1261, y: 3148, found: false },
   ]);
