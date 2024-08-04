@@ -89,7 +89,7 @@ const App = () => {
   };
 
   return (
-    <div className="h-screen w-full">
+    <div className="h-screen w-full select-none">
       {targets.map((e) => (
         <img
           className="absolute size-6"
@@ -113,7 +113,7 @@ const App = () => {
       <img
         onLoad={() => setLoading(false)}
         src="/sea.gif"
-        className={"mx-auto mt-8 " + (loading && "hidden")}
+        className={"mx-auto mt-8 select-none " + (loading && "hidden")}
         alt=""
         onClick={imgClick}
         ref={ref}
